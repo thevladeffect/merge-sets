@@ -12,10 +12,10 @@ import {EditDialogComponent} from '../edit-dialog/edit-dialog.component';
 })
 export class MergeListsComponent implements OnInit {
 
-  public first: Set = sorted(new Set(['a/1', 'a/2', 'a/7', 'b/23']));
-  public second: Set = sorted(new Set(['a/7', 'a/23', 'a/72', 'b/12', 'c/1']));
+  public first: Set<string> = sorted(new Set(['a/1', 'a/2', 'a/7', 'b/23']));
+  public second: Set<string> = sorted(new Set(['a/7', 'a/23', 'a/72', 'b/12', 'c/1']));
 
-  public merged: Set;
+  public merged: Set<string>;
 
   constructor(private dialog: MatDialog) {
   }

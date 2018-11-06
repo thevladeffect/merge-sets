@@ -1,4 +1,4 @@
-export function sorted(set: Set): Set {
+export function sorted(set: Set<string>): Set<string> {
   const sortFunction = (first, second) => {
     const f = first.split('/');
     const s = second.split('/');
@@ -12,6 +12,6 @@ export function sorted(set: Set): Set {
   return new Set(array);
 }
 
-export function union(...sets) {
+export function union(...sets): Set<string> {
   return new Set([].concat(...sets.map(set => Array.from(set))));
 }
