@@ -1,0 +1,10 @@
+<h1 mat-dialog-title cdkFocusRegionstart>Enter values (letter/number) separated by a comma.</h1>
+<div mat-dialog-content>
+  <mat-form-field>
+    <textarea matInput [(ngModel)]="listString"></textarea>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button color="accent" [mat-dialog-close]="getListFromString()">Edit</button>
+  <button mat-flat-button (click)="dialogRef.close()">Cancel</button>
+</div>

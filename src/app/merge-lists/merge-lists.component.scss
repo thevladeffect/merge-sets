@@ -1,0 +1,78 @@
+@import '~@angular/material/theming';
+
+.merge-lists {
+  @include mat-elevation-transition;
+  @include mat-elevation(3);
+
+  padding: 2rem;
+  @media(min-width: 890px) {
+    margin: 2rem;
+  }
+  background: linear-gradient(
+      135deg,
+      rgba(183, 168, 171, 0.48) 0%,
+      rgba(234, 225, 227, 0.4) 37%,
+      rgba(58, 0, 246, 0.03) 100%
+  );
+
+  @media(min-width: 890px) {
+    width: 50%;
+  }
+
+  &__title {
+    color: #fff;
+    font-size: 5rem;
+    font-weight: bold;
+    font-family: Helvetica, serif;
+    text-shadow:
+      0 1px 0 #ccc,
+      0 2px 0 #c9c9c9,
+      0 3px 0 #bbb,
+      0 4px 0 #b9b9b9,
+      0 5px 0 #aaa,
+      0 6px 1px rgba(0,0,0,.1),
+      0 0 5px rgba(0,0,0,.1),
+      0 1px 3px rgba(0,0,0,.3),
+      0 3px 5px rgba(0,0,0,.2),
+      0 5px 10px rgba(0,0,0,.25),
+      0 10px 10px rgba(0,0,0,.2),
+      0 20px 20px rgba(0,0,0,.15);
+  }
+
+  &__lists {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    justify-content: space-between;
+    align-items: center;
+
+    @media(min-width: 480px) {
+      flex-direction: row;
+    }
+
+    &--first,
+    &--second {
+      cursor: pointer;
+    }
+
+    &--first,
+    &--second,
+    &--merged {
+      width: 100%;
+      @media(min-width: 480px) {
+        width: auto;
+      }
+    }
+  }
+
+  &__item {
+    @include mat-elevation(2);
+    background-color: #fff;
+    padding: 1rem;
+    width: calc(100% - 2rem);
+    text-align: center;
+    @media(min-width: 480px) {
+      width: 5rem;
+    }
+  }
+}

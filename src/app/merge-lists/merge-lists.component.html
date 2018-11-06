@@ -1,0 +1,33 @@
+<div class="merge-lists">
+  <div class="merge-lists__title">
+    merge lists
+  </div>
+  <div class="merge-lists__lists">
+    <div class="merge-lists__lists--first"
+         (click)="editFirst()">
+      <div *ngFor="let item of first"
+           class="merge-lists__item">
+        {{item}}
+      </div>
+    </div>
+    <mat-icon>
+      add
+    </mat-icon>
+    <div class="merge-lists__lists--second"
+         (click)="editSecond()">
+      <div *ngFor="let item of second"
+           class="merge-lists__item">
+        {{item}}
+      </div>
+    </div>
+    <mat-icon>
+      drag_handle
+    </mat-icon>
+    <div class="merge-lists__lists--merged">
+      <div *ngFor="let item of merged"
+           class="merge-lists__item">
+        {{item}}
+      </div>
+    </div>
+  </div>
+</div>
