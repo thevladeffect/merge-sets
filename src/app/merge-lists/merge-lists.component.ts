@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog, MatDialogRef} from '@angular/material';
 import {take, tap} from 'rxjs/operators';
 
-import {sorted, union} from './sorted-set.helper';
+import {Merger, sorted} from './sorted-set.helper';
 import {EditDialogComponent} from '../edit-dialog/edit-dialog.component';
 
 @Component({
@@ -12,10 +12,10 @@ import {EditDialogComponent} from '../edit-dialog/edit-dialog.component';
 })
 export class MergeListsComponent implements OnInit {
 
-  public first: Set<string> = sorted(new Set(['a/1', 'a/2', 'a/7', 'b/23']));
-  public second: Set<string> = sorted(new Set(['a/7', 'a/23', 'a/72', 'b/12', 'c/1']));
+  public first: string[] = ['a/1', 'a/2', 'a/7', 'b/23'];
+  public second: string[] = ['a/7', 'a/23', 'a/72', 'b/12', 'c/1'];
 
-  public merged: Set<string>;
+  public merged: string[];
 
   constructor(private dialog: MatDialog) {
   }
@@ -25,12 +25,12 @@ export class MergeListsComponent implements OnInit {
   }
 
   public editFirst(): void {
-    const dialogRef = this.openEditDialog(Array.from(this.first));
+    const dialogRef = this.openEditDialog(this.first);
     dialogRef.afterClosed()
       .pipe(
         tap((result: string[]) => {
           if (result) {
-            this.first = sorted(new Set(result));
+            this.first = sorted(result);
             this.updateMerged();
           }
         }),
@@ -45,7 +45,7 @@ export class MergeListsComponent implements OnInit {
       .pipe(
         tap((result: string[]) => {
           if (result) {
-            this.second = sorted(new Set(result));
+            this.second = sorted(result);
             this.updateMerged();
           }
         }),
@@ -55,7 +55,8 @@ export class MergeListsComponent implements OnInit {
   }
 
   private updateMerged(): void {
-    this.merged = sorted(union(this.first, this.second));
+    const merger = new Merger(this.first, this.second);
+    this.merged = merger.getResult();
   }
 
   private openEditDialog(list: string[]): MatDialogRef<EditDialogComponent> {
