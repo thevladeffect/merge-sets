@@ -1,5 +1,5 @@
 import {add, Matrix} from 'mathjs';
-import {matrix} from 'mathjs';
+import {matrix, zeros} from 'mathjs';
 
 export function sorted(array: string[]): string[] {
   const sortFunction = (first, second) => {
@@ -27,14 +27,33 @@ export class Merger {
   }
 
   private static asMatrix(arr: string[], height: number, width: number): Matrix {
-    const array = [];
-    for (let x = 0; x < height; x++) {
-      array.push([]);
-      for (let y = 0; y < width; y++) {
-        array[x][y] = Merger.isNode(x + 1, y + 1, arr) ? 1 : 0;
+    const layered = arr.reduce((accumulator, currentValue) => {
+      if (!accumulator[0] || Merger.letter(Merger.lastElement(Merger.lastElement(accumulator))) !== Merger.letter(currentValue)) {
+        accumulator.push([]);
       }
+      accumulator[accumulator.length - 1].push(currentValue);
+      return accumulator;
+    }, []);
+
+    while (layered.length < height) {
+      layered.push([]);
     }
-    return matrix(array);
+
+    return matrix(
+      layered.map((row: string[]) =>
+        (<number[]>(<Matrix>zeros(width)).toArray())
+          .map((item, index) => {
+            if (new RegExp('/' + (index + 1) + '[a-z]*').test(row.join())) {
+              return 1;
+            }
+            return 0;
+          })
+      )
+    );
+  }
+
+  private static lastElement<T>(array: T[]): T | undefined {
+    return array.slice(-1)[0];
   }
 
   private static flattenArray(array: string[][]): string[] {
@@ -46,7 +65,11 @@ export class Merger {
   }
 
   private static getLetters(set: string[]): string[] {
-    return Array.from(new Set(set.map((item: string) => item.split('/')[0])));
+    return Array.from(new Set(set.map((item: string) => Merger.letter(item))));
+  }
+
+  private static letter(item: string): string {
+    return item.split('/')[0];
   }
 
   private static asArray(m: Matrix, letters: string[]): string[] {
