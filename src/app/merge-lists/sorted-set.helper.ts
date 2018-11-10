@@ -1,5 +1,5 @@
 import {add, Matrix} from 'mathjs';
-import {matrix, zeros} from 'mathjs';
+import {matrix} from 'mathjs';
 
 export function sorted(array: string[]): string[] {
   const sortFunction = (first, second) => {
@@ -23,7 +23,7 @@ export class Merger {
   ) {
     this.height = this.getHeight();
     this.width = this.getWidth();
-    this.letters = this.getLetters();
+    this.letters = this.getAllLetters();
   }
 
   private static asMatrix(arr: string[], height: number, width: number): Matrix {
@@ -40,15 +40,9 @@ export class Merger {
     }
 
     return matrix(
-      layered.map((row: string[]) =>
-        (<number[]>(<Matrix>zeros(width)).toArray())
-          .map((item, index) => {
-            if (new RegExp('/' + (index + 1) + '[a-z]*').test(row.join())) {
-              return 1;
-            }
-            return 0;
-          })
-      )
+      layered.map((row: string[]) => new Array(width)
+        .fill(0)
+        .map((_, index) => new RegExp('\/' + (index + 1) + '(,.*)?$').test(row.join()) ? 1 : 0))
     );
   }
 
@@ -58,10 +52,6 @@ export class Merger {
 
   private static flattenArray(array: string[][]): string[] {
     return [].concat(...array);
-  }
-
-  private static isNode(x: number, y: number, set: string[]): boolean {
-    return set.includes(`${Merger.getLetters(set)[x - 1]}/${y}`);
   }
 
   private static getLetters(set: string[]): string[] {
@@ -96,7 +86,7 @@ export class Merger {
     );
   }
 
-  private getLetters() {
+  private getAllLetters() {
     return Array.from(
       new Set([].concat(Merger.getLetters(this.first), Merger.getLetters(this.second)))
     );
